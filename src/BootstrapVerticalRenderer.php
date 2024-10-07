@@ -11,6 +11,7 @@ use Nette\Forms\Controls\SelectBox;
 use Nette\Forms\Controls\TextBase;
 use Nette\Forms\Form;
 use Nette\Forms\Rendering\DefaultFormRenderer;
+use Nette\Utils\Html;
 
 class BootstrapVerticalRenderer extends DefaultFormRenderer
 {
@@ -85,13 +86,16 @@ class BootstrapVerticalRenderer extends DefaultFormRenderer
                 }
             } elseif ($control instanceof TextBase ||
                 $control instanceof SelectBox ||
-                $control instanceof MultiSelectBox) {
+                $control instanceof MultiSelectBox
+            ) {
                 $control->getControlPrototype()->addClass('form-control');
             } elseif ($control instanceof Checkbox ||
                 $control instanceof CheckboxList ||
                 $control instanceof RadioList) {
                 $control->getSeparatorPrototype()->setName('div')->addClass($control->getControlPrototype()->type);
             }
+
+            AccessibilityHelper::addAccessibilityMetaDataToControl($form, $control, $this->wrappers);
         }
 
         return parent::render($form, $mode);
